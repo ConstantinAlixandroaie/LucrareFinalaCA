@@ -6,3 +6,10 @@
 
 <h2>AddArticle</h2>
 
+<form method="post">
+    <input asp-for="Article.Title" />
+    <input asp-for="Article.ArticleText" />
+    <input asp-for="Article.ImgUrl" />
+    <input id="categories" asp-for="categories"/>
+    <input type="submit" asp-page-handler="Add" value="Add Article"/>
+</form>

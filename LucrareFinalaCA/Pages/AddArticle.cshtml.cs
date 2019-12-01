@@ -15,11 +15,14 @@ namespace LucrareFinalaCA.Pages
         private readonly ArticleController _articleController;
         [BindProperty]
         public ArticleViewModel Article { get; set; }
+        [BindProperty]
+        public string categories { get; set; }
+        string[] separator = { ",", " " };
         public AddArticleModel(ApplicationDbContext ctx)
         {
             _articleController = new ArticleController(ctx);
         }
-
+        
         public IActionResult OnGet()
         {
             if (!User.Identity.IsAuthenticated)
@@ -28,6 +31,7 @@ namespace LucrareFinalaCA.Pages
         }
         public async Task<IActionResult> OnPostAdd()
         {
+            Article.Categories = categories.Split(separator, StringSplitOptions.RemoveEmptyEntries); 
             Article.Author = User.Identity.Name;
             await _articleController.Add(Article);
             return RedirectToPage("/Index");
