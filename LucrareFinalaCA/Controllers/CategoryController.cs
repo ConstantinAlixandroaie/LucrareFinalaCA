@@ -16,39 +16,11 @@ namespace LucrareFinalaCA.Controllers
 
         }
         string[] separator = { ",", " " };
-        public override async Task Add(CategoryViewModel vm)
+        public override Task Add(CategoryViewModel vm)
         {
-            //check if the vm(view model ) is null. 
-            //create the category only if the name in the view model is not null.
-            if (vm == null)
-            {
-                throw new ArgumentNullException(nameof(vm));
-            }
-            if (vm.Name == null)
-            {
-                throw new ArgumentException("Category Name cannot be null!");
-            }
-            
-            List<string> CategoryNames = vm.Name.Split(separator, StringSplitOptions.None).ToList();
-            var availableCategories = await _ctx.Categories.ToListAsync();
-            if (CategoryNames.Count != 0 && availableCategories.Count != 0)
-            {
-                for (int i = 0; i < CategoryNames.Count; i++)
-                {
-                    for (int j = 0; j < availableCategories.Count; j++)
-                    {
-                        if (CategoryNames.ElementAt(i) != availableCategories.ElementAt(j).Name)
-                        {
-                            var category = new Category()
-                            {
-                                Name = CategoryNames.ElementAt(i),
-                            };
-                            _ctx.Categories.Add(category);
-                            await _ctx.SaveChangesAsync();
-                        }
-                    }
-                }
-            }
+            //never used.
+            //Category add fucntion is performed by the article controller
+            throw new NotImplementedException();
         }
 
         public override Task Delete(int id)

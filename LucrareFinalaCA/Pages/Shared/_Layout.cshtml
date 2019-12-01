@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LucrareFinalaCA</title>
+    <title>@ViewData["Title"] - Mockipedia</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -30,9 +30,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-page="/Index">Home</a></li>
-                    <li><a asp-page="/About">About</a></li>
-                    <li><a asp-page="/Contact">Contact</a></li>
+                    <li><a asp-page="/Articles">Articles</a></li>
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
@@ -43,7 +41,7 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
+        <hr/>
         <footer>
             <p>&copy; 2019 - LucrareFinalaCA</p>
         </footer>

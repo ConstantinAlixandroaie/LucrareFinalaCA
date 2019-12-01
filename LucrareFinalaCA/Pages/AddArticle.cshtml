@@ -2,14 +2,39 @@
 @model LucrareFinalaCA.Pages.AddArticleModel
 @{
     ViewData["Title"] = "AddArticle";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>AddArticle</h2>
+<h2 class="col-md-12">Add Article</h2>
+
 
 <form method="post">
-    <input asp-for="Article.Title" />
-    <input asp-for="Article.ArticleText" />
-    <input asp-for="Article.ImgUrl" />
-    <input id="categories" asp-for="categories"/>
-    <input type="submit" asp-page-handler="Add" value="Add Article"/>
+    <div class="col-">
+        <label class="col-sm-12 ">Title</label>
+    </div>
+    <div class="col-md-12">
+        <input class="col" asp-for="Article.Title" />
+    </div>
+    <div class="col-md-12">
+        <label class="col-sm-12 ">Content</label>
+    </div>
+    <div class="col-md-12">
+        <textarea class="col-sm-8" rows="10" asp-for="Article.ArticleText"></textarea>
+    </div>
+    <div class="col-sm-12 ">
+        <label class="col-sm-12 ">Image URL</label>
+    </div>
+    <div class="col-sm-12">
+        <input asp-for="Article.ImgUrl" />
+    </div>
+    <div class="col-sm-12">
+        <label class="col-sm-12">Categories</label>
+    </div>
+    <div class="col-sm-12">
+        <input id="categories" asp-for="categories" />
+    </div>
+    <div class="col-sm-12 ">
+        <input type="submit" asp-page-handler="Add" value="Add" />
+    </div>
 </form>
+
