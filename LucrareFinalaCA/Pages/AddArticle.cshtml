@@ -8,27 +8,27 @@
 <h2 class="col-md-12">Add Article</h2>
 
 
-<form method="post">
-    <div class="col-">
-        <label class="col-sm-12 ">Title</label>
+<form method="post" class="col-sm-12">
+    <div class="col-sm-12">
+        <label >Title</label>
     </div>
-    <div class="col-md-12">
+    <div class="col-sm-12">
         <input class="col" asp-for="Article.Title" />
     </div>
-    <div class="col-md-12">
-        <label class="col-sm-12 ">Content</label>
+    <div class="col-sm-12">
+        <label >Content</label>
     </div>
-    <div class="col-md-12">
-        <textarea class="col-sm-8" rows="10" asp-for="Article.ArticleText"></textarea>
+    <div class="col-sm-12">
+        <textarea cols="60" rows="10" asp-for="Article.ArticleText"></textarea>
     </div>
     <div class="col-sm-12 ">
-        <label class="col-sm-12 ">Image URL</label>
+        <label>Image URL</label>
     </div>
     <div class="col-sm-12">
         <input asp-for="Article.ImgUrl" />
     </div>
     <div class="col-sm-12">
-        <label class="col-sm-12">Categories</label>
+        <label >Categories</label>
     </div>
     <div class="col-sm-12">
         <input id="categories" asp-for="categories" />
@@ -37,4 +37,5 @@
         <input type="submit" asp-page-handler="Add" value="Add" />
     </div>
 </form>
+
 
