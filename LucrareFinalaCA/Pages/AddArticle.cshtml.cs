@@ -36,12 +36,8 @@ namespace LucrareFinalaCA.Pages
         }
         public async Task<IActionResult> OnPostAdd()
         {
-            if (Path.GetExtension(Image.FileName) != ".png" || Path.GetExtension(Image.FileName) != ".jpeg" || Path.GetExtension(Image.FileName) != ".jpg"
-                || Path.GetExtension(Image.FileName) != ".gif" || Path.GetExtension(Image.FileName) != ".bmp")
-            {
-                throw new Exception("YOu can only add pictures!");
-            }
-            else
+            if (Path.GetExtension(Image.FileName).Equals(".png") || Path.GetExtension(Image.FileName).Equals(".jpeg") || Path.GetExtension(Image.FileName).Equals(".jpg")
+                || Path.GetExtension(Image.FileName).Equals(".gif") || Path.GetExtension(Image.FileName).Equals(".bmp"))
             {
                 BinaryReader reader = new BinaryReader(Image.OpenReadStream());
                 Article.Categories = categories.Split(separator, StringSplitOptions.RemoveEmptyEntries);
@@ -49,6 +45,10 @@ namespace LucrareFinalaCA.Pages
                 Article.Image = reader.ReadBytes((int)Image.Length);
                 await _articleController.Add(Article);
                 return RedirectToPage("/Index");
+            }
+            else
+            {
+                throw new Exception("You can only add pictures!");
             }
         }
 

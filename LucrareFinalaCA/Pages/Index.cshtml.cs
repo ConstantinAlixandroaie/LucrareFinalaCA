@@ -14,7 +14,6 @@ namespace LucrareFinalaCA.Pages
     {
         private readonly ArticleController _articleController;
         public List<ArticleViewModel> Articles { get; set; }
-        public List<string> artimage { get; set; }
         public IndexModel(ApplicationDbContext ctx)
         {
             _articleController = new ArticleController(ctx);
