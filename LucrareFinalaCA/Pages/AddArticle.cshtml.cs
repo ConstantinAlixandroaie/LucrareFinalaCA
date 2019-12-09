@@ -31,7 +31,7 @@ namespace LucrareFinalaCA.Pages
         public IActionResult OnGet()
         {
             if (!User.Identity.IsAuthenticated)
-                return RedirectToPage("/Login");
+                return RedirectToAction("/Identity/Account/Login");
             return Page();
         }
         public async Task<IActionResult> OnPostAdd()

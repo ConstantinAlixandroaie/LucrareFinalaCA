@@ -108,7 +108,9 @@ namespace LucrareFinalaCA.Controllers
                 article.Title = vm.Title;
             if (vm.ArticleText != null)
                 article.ArticleText = vm.ArticleText;
-            if (vm.Title != null || vm.ArticleText != null)
+            if (vm.Image != null)
+                article.Image = vm.Image;
+            if (vm.Title != null || vm.ArticleText != null || vm.Image != null)
                 article.EditedDate = DateTime.Now;
         }
 
@@ -122,6 +124,7 @@ namespace LucrareFinalaCA.Controllers
                 {
                     Id = article.Id,
                     Title = article.Title,
+                    Image = article.Image,
                     Author = article.Author,
                     ArticleText = article.ArticleText,
                     IssueDate = article.IssueDate,
@@ -143,6 +146,7 @@ namespace LucrareFinalaCA.Controllers
             {
                 Id = article.Id,
                 Title = article.Title,
+                Image = article.Image,
                 Author = article.Author,
                 ArticleText = article.ArticleText,
                 IssueDate = article.IssueDate,
@@ -154,15 +158,15 @@ namespace LucrareFinalaCA.Controllers
         {
             var rv = new List<ArticleViewModel>();
             var articles = await (from arts in _ctx.Articles
-                                     orderby arts.IssueDate descending
-                                     select arts).Take(9).ToListAsync();
+                                  orderby arts.IssueDate descending
+                                  select arts).Take(9).ToListAsync();
             foreach (var art in articles)
             {
                 var vm = new ArticleViewModel()
                 {
                     Id = art.Id,
                     Title = art.Title,
-                    Image =art.Image,
+                    Image = art.Image,
                     Author = art.Author,
                     ArticleText = art.ArticleText,
                     IssueDate = art.IssueDate,
