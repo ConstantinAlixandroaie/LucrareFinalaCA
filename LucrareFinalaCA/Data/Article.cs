@@ -9,7 +9,7 @@ namespace LucrareFinalaCA.Data
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string ImgUrl { get; set; }
+        public byte[] Image { get; set; }
         public string Author { get; set; }
         public string ArticleText { get; set; }
         public DateTime IssueDate { get; set; }

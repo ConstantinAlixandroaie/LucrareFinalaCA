@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LucrareFinalaCA.Data.Migrations
+namespace LucrareFinalaCA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191124142510_initial")]
+    [Migration("20191209080329_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -33,7 +33,7 @@ namespace LucrareFinalaCA.Data.Migrations
 
                     b.Property<DateTime?>("EditedDate");
 
-                    b.Property<string>("ImgUrl");
+                    b.Property<byte[]>("Image");
 
                     b.Property<DateTime>("IssueDate");
 

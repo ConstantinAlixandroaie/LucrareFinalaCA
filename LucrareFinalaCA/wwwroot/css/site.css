@@ -35,3 +35,46 @@ body {
         display: none;
     }
 }
+
+.spanner {
+    font-size: 5em;
+    color: white;
+    width: 10em;
+    height: 2em;
+    line-height: 2;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+}
+
+.linkSpanner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    /* edit: fixes overlap error in IE7/8, 
+     make sure you have an empty gif 
+  background-image: url('empty.gif');*/
+}
+
+.zoom {
+    transition: transform .2s; /* Animation */
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+    .zoom:hover {
+        transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+
+.card {
+    display: inline-block;
+    width: 200px;
+    height: 100px;
+    margin: 1em;
+}
