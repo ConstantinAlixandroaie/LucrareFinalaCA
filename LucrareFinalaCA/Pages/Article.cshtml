@@ -15,6 +15,7 @@
 }
 else
 {
+<form method="Post" class="col-sm-12" enctype="multipart/form-data">
     @foreach (var article in Model.Articles)
     {
         <div class="col-xs-3 card spanner zoom">
@@ -23,6 +24,8 @@ else
                 <span class="linkSpanner"></span>
             </a>
             <a class="text-center" href="/EditArticle/@article.Id">Edit</a>
+            <button type="submit" asp-page-handler="delete" asp-route-id="@article.Id">Delete</button>
         </div>
     }
+</form>
 }

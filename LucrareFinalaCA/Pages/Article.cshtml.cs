@@ -36,5 +36,13 @@ namespace LucrareFinalaCA
             IsbyId = true;
             return Page();
         }
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return Redirect("/Identity/Account/Login");
+
+            await _articleController.Delete(id);
+            return RedirectToPage("/Article");
+        }
     }
 }
