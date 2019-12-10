@@ -112,6 +112,8 @@ namespace LucrareFinalaCA.Controllers
                 article.Image = vm.Image;
             if (vm.Title != null || vm.ArticleText != null || vm.Image != null)
                 article.EditedDate = DateTime.Now;
+            _ctx.Attach(article).State = EntityState.Modified;
+            await _ctx.SaveChangesAsync();
         }
 
         public override async Task<List<ArticleViewModel>> GetAsync()

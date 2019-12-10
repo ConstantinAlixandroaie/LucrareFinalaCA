@@ -1,0 +1,36 @@
+﻿@page "{id}"
+@model LucrareFinalaCA.EditArticleModel
+@{
+    ViewData["Title"] = "EditArticle";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>EditArticle</h2>
+
+<form id="artdata" method="post" class="col-sm-12" enctype="multipart/form-data">
+    <div class="col-sm-12">
+        <label>Title</label>
+    </div>
+    <div class="col-sm-12">
+        <input type="hidden" asp-for="Article.Id" value="@Model.Article.Id" />
+        <input class="col" asp-for="Article.Title" />
+    </div>
+    <div class="col-sm-12">
+        <label>Content</label>
+    </div>
+    <div class="col-sm-12">
+        <textarea cols="60" rows="10" asp-for="Article.ArticleText"></textarea>
+    </div>
+    <div class="col-sm-12 ">
+        <label>Image URL</label>
+    </div>
+    <div class="col-sm-12">
+        <input type="file" asp-for="Image" />
+    </div>
+    <div class="col-sm-12">
+        <label>Categories</label>
+    </div>
+    <div>
+        <input type="submit" asp-page-handler="Edit" value="Edit" />
+    </div>
+</form>

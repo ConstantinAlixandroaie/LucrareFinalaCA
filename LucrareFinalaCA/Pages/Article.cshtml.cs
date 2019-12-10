@@ -23,12 +23,10 @@ namespace LucrareFinalaCA
         {
             _articleController = new ArticleController(ctx);
         }
-        public async Task<IActionResult> OnGet(int? qid =null)
+        public async Task<IActionResult> OnGet(int? qid = null)
         {
-            if (qid!=null)
-            {
+            if (qid != null)
                 return await OnGetWithId(qid.Value);
-            }
             Articles = await _articleController.GetAsync();
             return Page();
         }
