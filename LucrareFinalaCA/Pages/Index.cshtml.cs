@@ -14,6 +14,8 @@ namespace LucrareFinalaCA.Pages
     {
         private readonly ArticleController _articleController;
         public List<ArticleViewModel> Articles { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string searchString { get; set; }
         public IndexModel(ApplicationDbContext ctx)
         {
             _articleController = new ArticleController(ctx);
@@ -21,7 +23,7 @@ namespace LucrareFinalaCA.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            Articles = await _articleController.GetByLastAsync();
+            Articles = await _articleController.GetByLastAsync(searchString);
             return Page();
         }
     }

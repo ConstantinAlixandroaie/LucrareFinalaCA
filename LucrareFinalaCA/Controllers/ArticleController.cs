@@ -156,27 +156,48 @@ namespace LucrareFinalaCA.Controllers
             };
             return rv;
         }
-        public async Task<List<ArticleViewModel>> GetByLastAsync()
+        public async Task<List<ArticleViewModel>> GetByLastAsync(string searchString)
         {
             var rv = new List<ArticleViewModel>();
             var articles = await (from arts in _ctx.Articles
                                   orderby arts.IssueDate descending
                                   select arts).Take(9).ToListAsync();
-            foreach (var art in articles)
+            var searcharticles = from a in _ctx.Articles
+                                 select a;
+            if (!string.IsNullOrEmpty(searchString))
             {
-                var vm = new ArticleViewModel()
+                searcharticles = searcharticles.Where(s => s.Title.Contains(searchString));
+                foreach (var art in searcharticles)
                 {
-                    Id = art.Id,
-                    Title = art.Title,
-                    Image = art.Image,
-                    Author = art.Author,
-                    ArticleText = art.ArticleText,
-                    IssueDate = art.IssueDate,
-                    EditedDate = art.EditedDate,
-                };
-                rv.Add(vm);
+                    var vm = new ArticleViewModel()
+                    {
+                        Id = art.Id,
+                        Title = art.Title,
+                        Image = art.Image,
+                        Author = art.Author,
+                        ArticleText = art.ArticleText,
+                        IssueDate = art.IssueDate,
+                        EditedDate = art.EditedDate,
+                    };
+                    rv.Add(vm);
+                }
             }
-            return rv;
+            else
+                foreach (var art in articles)
+                {
+                    var vm = new ArticleViewModel()
+                    {
+                        Id = art.Id,
+                        Title = art.Title,
+                        Image = art.Image,
+                        Author = art.Author,
+                        ArticleText = art.ArticleText,
+                        IssueDate = art.IssueDate,
+                        EditedDate = art.EditedDate,
+                    };
+                    rv.Add(vm);
+                }
+                return rv;
+            }
         }
     }
-}

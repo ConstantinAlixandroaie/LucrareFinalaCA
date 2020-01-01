@@ -36,12 +36,16 @@ namespace LucrareFinalaCA
         }
         public async Task<IActionResult> OnPostEdit()
         {
-            if (Path.GetExtension(Image.FileName).Equals(".png") || Path.GetExtension(Image.FileName).Equals(".jpeg") || Path.GetExtension(Image.FileName).Equals(".jpg")
-                || Path.GetExtension(Image.FileName).Equals(".gif") || Path.GetExtension(Image.FileName).Equals(".bmp"))
+            if (Image != null)
             {
-                BinaryReader reader = new BinaryReader(Image.OpenReadStream());
-                Article.Image = reader.ReadBytes((int)Image.Length);
+                if (Path.GetExtension(Image.FileName).Equals(".png") || Path.GetExtension(Image.FileName).Equals(".jpeg") || Path.GetExtension(Image.FileName).Equals(".jpg")
+                    || Path.GetExtension(Image.FileName).Equals(".gif") || Path.GetExtension(Image.FileName).Equals(".bmp"))
+                {
+                    BinaryReader reader = new BinaryReader(Image.OpenReadStream());
+                    Article.Image = reader.ReadBytes((int)Image.Length);
+                }
             }
+
             await _articleController.Edit(Article);
             return RedirectToPage("/Article");
         }

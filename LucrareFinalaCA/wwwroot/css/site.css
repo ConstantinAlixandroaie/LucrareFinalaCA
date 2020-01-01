@@ -37,16 +37,9 @@ body {
 }
 
 .spanner {
-    font-size: 5em;
-    color: white;
-    width: 10em;
-    height: 2em;
     line-height: 2;
-    text-align: center;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
     cursor: pointer;
-    position: relative;
+    margin: 0 auto;
 }
 
 .linkSpanner {
@@ -63,8 +56,6 @@ body {
 
 .zoom {
     transition: transform .2s; /* Animation */
-    width: 200px;
-    height: 200px;
     margin: 0 auto;
 }
 
@@ -74,7 +65,59 @@ body {
 
 .card {
     display: inline-block;
+    height: 200px;
+    padding: 20px 20px 20px 20px;
+    margin: 30px 30px 30px 30px;
+}
+
+.article-container {
     width: 200px;
-    height: 100px;
-    margin: 1em;
+    height: 200px;
+    padding: 10px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.shadow {
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+.card-bottom-section {
+    display: inline-block;
+    padding: 20px 20px 20px 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.card-top-section {
+    display: inline-block;
+    padding: 20px 20px 20px 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 20px;
+}
+
+.img-article-thumbnail {
+    -o-object-fit: scale-down;
+    max-height: 100px;
+    max-width: 100px;
+}
+
+.article-preview {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.img-minimum{
+    min-height:2em;
+    min-width:5em;
+    border-radius:50%;
+}
+.text-responsive{
+    font-size: 1vw;
 }
