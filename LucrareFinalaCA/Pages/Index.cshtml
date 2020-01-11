@@ -16,29 +16,50 @@
         </p>
     </form>
     <div class="col-xs-12">
-        @foreach (var article in Model.Articles)
-        {
-            <div class="col-xs-5 card shadow">
-                <div class="col-xs-12 card-top-section">
-                    <div class="col-xs-3">
-                        <div class="col-xs-12 zoom spanner">
-                            <img class="img-responsive img-minimum" src="data:image;base64,@Convert.ToBase64String(article.Image)" />
-                            <a href="/Article/@article.Id">
-                                <span class="linkSpanner"></span>
-                            </a>
+        @*@foreach (var article in Model.Articles)
+            {
+                <div class="col-xs-5 card shadow">
+                    <div class="col-xs-12 card-top-section">
+                        <div class="col-xs-3">
+                            <div class="col-xs-12 zoom spanner">
+                                <img class="img-responsive img-minimum" src="data:image;base64,@Convert.ToBase64String(article.Image)" />
+                                <a href="/Article/@article.Id">
+                                    <span class="linkSpanner"></span>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-8 col-xs-offset-1">
-                        <div class="col-xs-12 ">
-                            <h1 class="text-responsive"> @article.Title </h1>
-                        </div>
-                        <div class="col-xs-6  text-responsive">
-                            <p class="article-preview">
-                                @article.ArticleText
-                            </p>
+                        <div class="col-xs-8 col-xs-offset-1">
+                            <div class="col-xs-12 ">
+                                <h1 class="text-responsive"> @article.Title </h1>
+                            </div>
+                            <div class="col-xs-6  text-responsive">
+                                <p class="article-preview">
+                                    @article.ArticleText
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
+            }*@
+        @foreach (var article in Model.Articles)
+        {
+            <div class="col-xs-5 container d-flex justify-content-center">
+                <figure class="card card-product-grid card-lg">
+                    <a href="/Article/@article.Id" class="img-wrap" data-abc="true">
+                        <img class="img-thumbnail" src="data:image;base64,@Convert.ToBase64String(article.Image)" />
+                    </a>
+                    <figcaption class="info-wrap">
+                        <div class="row">
+                            <div class="col-xs-9"> <a href="/Article/@article.Id" class="title" data-abc="true">@article.Title</a> </div>
+                            <div class="col-xs-3">
+                                <div class="rating text-right"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
+                            </div>
+                        </div>
+                    </figcaption>
+                    <div class="bottom-wrap">
+                        
+                    </div>
+                </figure>
             </div>
         }
     </div>
