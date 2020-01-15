@@ -43,8 +43,8 @@
             }*@
         @foreach (var article in Model.Articles)
         {
-            <div class="col-xs-5 container d-flex justify-content-center">
-                <figure class="card card-product-grid card-lg">
+            <div class="col-xs-3 container d-flex justify-content-center">
+                <figure class="col-xs-12 card card-product-grid card-lg">
                     <a href="/Article/@article.Id" class="img-wrap" data-abc="true">
                         <img class="img-thumbnail" src="data:image;base64,@Convert.ToBase64String(article.Image)" />
                     </a>
