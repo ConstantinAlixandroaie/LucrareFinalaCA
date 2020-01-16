@@ -11,7 +11,9 @@ namespace LucrareFinalaCA.Data
 {
     public class SeedData
     {
-        public static async Task Initialize(IServiceProvider serviceProvider, string testUserPw)
+        //it's only used once after that it will be commented and replaced by a 
+        //method to promote users to roles by a single administrator account
+        public static async Task Initialize(IServiceProvider serviceProvider)
         {
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
@@ -21,30 +23,27 @@ namespace LucrareFinalaCA.Data
                 // dotnet user-secrets set SeedUserPW <pw>
                 // The admin user can do anything
 
-                var adminID = await EnsureUser(serviceProvider, testUserPw, "admin@iap.com");
+                var adminID = await EnsureUser(serviceProvider, "costel@gmail.com");
                 await EnsureRole(serviceProvider, adminID, Constants.ArticleAdministratorsRole);
 
                 // allowed user can create and edit contacts that they create
-                var managerID = await EnsureUser(serviceProvider, testUserPw, "manager@iap.com");
-                await EnsureRole(serviceProvider, managerID, Constants.ArticleManagersRole);
+                //var managerID = await EnsureUser(serviceProvider, testUserPw, "manager@iap.com");
+                //await EnsureRole(serviceProvider, managerID, Constants.ArticleManagersRole);
 
-                SeedDB(context, adminID);
+                //SeedDB(context, adminID);
             }
         }
 
-        private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
-                                               string testUserPw, string UserName)
+        private static async Task<string> EnsureUser(IServiceProvider serviceprovider,
+                                                 string username)
         {
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var usermanager = serviceprovider.GetService<UserManager<IdentityUser>>();
 
-            var user = await userManager.FindByNameAsync(UserName);
+            var user = await usermanager.FindByNameAsync(username);
             if (user == null)
-            {
-                user = new IdentityUser { UserName = UserName };
-                await userManager.CreateAsync(user, testUserPw);
-            }
+                throw new ArgumentNullException(nameof(user));
 
-            return user.Id;
+                return user.Id;
         }
 
         private static async Task<IdentityResult> EnsureRole(IServiceProvider serviceProvider,
