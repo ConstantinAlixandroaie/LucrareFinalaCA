@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 using LucrareFinalaCA.Data;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using LucrareFinalaCA.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
 
 namespace LucrareFinalaCA.Controllers
 {
     public class ArticleController : BaseSiteController<ArticleViewModel>
     {
+        
+        protected IAuthorizationService AuthorizationService { get; }
         public ArticleController(ApplicationDbContext ctx) : base(ctx)
         {
         }
@@ -102,8 +109,10 @@ namespace LucrareFinalaCA.Controllers
         public override async Task Edit(ArticleViewModel vm)
         {
             var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == vm.Id);
+
             if (article == null)
                 throw new ArgumentException($"An Article with the given ID = '{vm.Id}' was not found ");
+
             if (vm.Title != null)
                 article.Title = vm.Title;
             if (vm.ArticleText != null)
@@ -112,8 +121,9 @@ namespace LucrareFinalaCA.Controllers
                 article.Image = vm.Image;
             if (vm.Title != null || vm.ArticleText != null || vm.Image != null)
                 article.EditedDate = DateTime.Now;
-            _ctx.Attach(article).State = EntityState.Modified;
-            await _ctx.SaveChangesAsync();
+                _ctx.Attach(article).State = EntityState.Modified;
+                await _ctx.SaveChangesAsync();
+
         }
 
         public override async Task<List<ArticleViewModel>> GetAsync()

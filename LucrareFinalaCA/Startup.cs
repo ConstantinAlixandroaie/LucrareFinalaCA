@@ -56,7 +56,7 @@ namespace LucrareFinalaCA
        .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //Authorization Handlers.
-            services.AddScoped<IAuthorizationHandler, ArticleIsOwnerAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, ArticleIsOwnedAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, ArticleManagerAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, ArticleAdministratorsAuthorizationHandler>();
 

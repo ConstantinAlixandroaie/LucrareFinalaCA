@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace LucrareFinalaCA.Authorization
 {
-    public class ArticleIsOwnerAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Article>
+    public class ArticleIsOwnedAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Article>
     {
         UserManager<IdentityUser> _userManager;
 
-        public ArticleIsOwnerAuthorizationHandler(UserManager<IdentityUser> userManager)
+        public ArticleIsOwnedAuthorizationHandler(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }

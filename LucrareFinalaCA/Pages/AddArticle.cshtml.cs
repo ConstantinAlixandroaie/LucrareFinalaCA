@@ -2,6 +2,7 @@
 using LucrareFinalaCA.Data;
 using LucrareFinalaCA.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -15,6 +16,7 @@ namespace LucrareFinalaCA.Pages
 {
     public class AddArticleModel : PageModel
     {
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ArticleController _articleController;
         [BindProperty]
         public ArticleViewModel Article { get; set; }
@@ -23,9 +25,10 @@ namespace LucrareFinalaCA.Pages
         string[] separator = { ",", " " };
         [BindProperty]
         public IFormFile Image { get; set; }
-        public AddArticleModel(ApplicationDbContext ctx)
+        public AddArticleModel(ApplicationDbContext ctx,UserManager<IdentityUser> userManager)
         {
             _articleController = new ArticleController(ctx);
+            _userManager = userManager;
         }
 
         public IActionResult OnGet()
@@ -41,7 +44,7 @@ namespace LucrareFinalaCA.Pages
             {
                 BinaryReader reader = new BinaryReader(Image.OpenReadStream());
                 Article.Categories = categories.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-                Article.Author = User.Identity.Name;
+                Article.Author = _userManager.GetUserId(User);
                 Article.Image = reader.ReadBytes((int)Image.Length);
                 await _articleController.Add(Article);
                 return RedirectToPage("/Index");
