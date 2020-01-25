@@ -29,8 +29,9 @@ namespace LucrareFinalaCA.Authorization
 
             if (requirement.Name != Constants.CreateOperationName &&
                 requirement.Name != Constants.ReadOperationName &&
-                requirement.Name != Constants.UpdateOperationName &&
-                requirement.Name != Constants.DeleteOperationName)
+                requirement.Name != Constants.UpdateOperationName)
+                //&& requirement.Name != Constants.DeleteOperationName)  
+                //article author is only able to create update or read but not able to remove. only the administrator can do it. 
             {
                 return Task.CompletedTask;
             }
