@@ -50,32 +50,20 @@ namespace LucrareFinalaCA
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
             //CRUD will be modified to take a user view model as a parameter and work only for the appropriate users.
-            var test = User;
             article = await _ctx.Articles.FindAsync(id);
-            //var aarticle = await _ctx.Articles.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
             if (article == null)
             {
                 return NotFound();
             }
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(
-                                                    User, article,
-                                                    ArticleOperations.Delete);
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, article, ArticleOperations.Delete);
 
             if (!isAuthorized.Succeeded)
             {
                 return new ChallengeResult();
             }
-            _ctx.Articles.Remove(article);
-            await _ctx.SaveChangesAsync();
+            await _articleController.Delete(id);
 
             return RedirectToPage("./Index");
-
-            //if (!User.Identity.IsAuthenticated)
-            //    return Redirect("/Identity/Account/Login");
-
-            //await _articleController.Delete(id);
-
-            //return RedirectToPage("/Article");
         }
     }
 }
