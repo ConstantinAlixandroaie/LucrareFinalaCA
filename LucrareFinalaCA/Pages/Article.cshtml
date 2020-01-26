@@ -40,17 +40,23 @@ else
                         </div>
                     </div>
                     <div class="col-xs-12 card-bottom-section">
-                        <a href="/EditArticle/@article.Id">Edit</a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, article, ArticleOperations.Update)).Succeeded)                        {
+                            <a href="/EditArticle/@article.Id">Edit</a>
+                        }
                         <a href="/Article/@article.Id">Details</a>
-                        <button type="submit"  asp-page-handler="delete" asp-route-id="@article.Id">
-                            <Button.ContentTemplate>
-                                <DataTemplate>
-                                    <Viewbox>
-                                        <TextBlock class="text-center">Delete</TextBlock>
-                                    </Viewbox>
-                                </DataTemplate>
-                            </Button.ContentTemplate>
-                        </button>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, article, ArticleOperations.Delete)).Succeeded)
+                        {
+                            <button type="submit" asp-page-handler="delete" asp-route-id="@article.Id">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <Viewbox>
+                                            <TextBlock class="text-center">Delete</TextBlock>
+                                        </Viewbox>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </button>
+                        }
+
                     </div>
                 </div>
             }
