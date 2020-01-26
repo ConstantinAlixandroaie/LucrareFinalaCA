@@ -26,8 +26,8 @@ namespace LucrareFinalaCA.Authorization
         public static readonly string UpdateOperationName = "Update";
         public static readonly string DeleteOperationName = "Delete";
         
-        public static readonly string ArticleAdministratorsRole =
-                                                              "AriclesAdministrators";
+        public static readonly string ArticleAdministratorsRole = "ArticlesAdministrators";
+
         public static readonly string ArticleManagersRole = "ArticlesManagers";
 
     }

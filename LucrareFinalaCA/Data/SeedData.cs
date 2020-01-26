@@ -23,7 +23,7 @@ namespace LucrareFinalaCA.Data
                 // dotnet user-secrets set SeedUserPW <pw>
                 // The admin user can do anything
 
-                var adminID = await EnsureUser(serviceProvider, "costel@gmail.com");
+                var adminID = await EnsureUser(serviceProvider, "constantin.alixandroaie@gmail.com");
                 await EnsureRole(serviceProvider, adminID, Constants.ArticleAdministratorsRole);
 
                 // allowed user can create and edit contacts that they create
