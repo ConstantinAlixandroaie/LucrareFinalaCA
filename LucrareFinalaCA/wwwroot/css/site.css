@@ -156,7 +156,7 @@ body {
 
 .card-product-grid .bottom-wrap {
     padding: 18px;
-    border-top: 1px solid #e4e4e4
+    border-top: 1px solid #e4e4e4;
 }
 
 .btn {
@@ -185,4 +185,10 @@ body {
 
 .fa {
     color: #FF5722
+}
+.cardbottom {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
 }

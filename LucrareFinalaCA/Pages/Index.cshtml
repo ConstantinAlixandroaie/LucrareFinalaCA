@@ -44,7 +44,7 @@
         @foreach (var article in Model.Articles)
         {
             <div class="col-xs-3 container d-flex justify-content-center">
-                <figure class="col-xs-12 card card-product-grid card-lg">
+                <figure class="col-lg-12 card-product-grid">
                     <a href="/Article/@article.Id" class="img-wrap" data-abc="true">
                         <img class="img-thumbnail" src="data:image;base64,@Convert.ToBase64String(article.Image)" />
                     </a>
@@ -56,8 +56,8 @@
                             </div>
                         </div>
                     </figcaption>
-                    <div class="bottom-wrap">
-                        
+                    <div class="cardbottom">
+                        @article.ArticleText
                     </div>
                 </figure>
             </div>
