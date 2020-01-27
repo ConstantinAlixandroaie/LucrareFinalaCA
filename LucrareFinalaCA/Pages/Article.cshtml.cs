@@ -24,22 +24,24 @@ namespace LucrareFinalaCA
         [BindProperty]
         public ArticleViewModel Article { get; set; }
         [BindProperty]
-        public Article article { get; set; }
         protected IAuthorizationService AuthorizationService { get; }
         protected ApplicationDbContext _ctx { get; }
         [BindProperty]
         public bool IsbyId { get; set; }
+        [BindProperty]
+        public string UserID { get; set; }
 
-        public ArticleModel(ApplicationDbContext ctx, IAuthorizationService authorizationService,UserManager<IdentityUser> UserManager)
+        public ArticleModel(ApplicationDbContext ctx, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager)
         {
-            _articleController = new ArticleController(ctx);
+            _articleController = new ArticleController(ctx, authorizationService);
             _ctx = ctx;
             AuthorizationService = authorizationService;
-            _userManager = UserManager;
-
+            _userManager = userManager;
         }
+
         public async Task<IActionResult> OnGet(int? qid = null)
         {
+            UserID = _userManager.GetUserId(User);
             if (qid != null)
                 return await OnGetWithId(qid.Value);
             Articles = await _articleController.GetAsync();
@@ -53,25 +55,8 @@ namespace LucrareFinalaCA
         }
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var role = await _userManager.GetRolesAsync(user);
-
             //CRUD will be modified to take a user view model as a parameter and work only for the appropriate users.
-            article = await _ctx.Articles.FindAsync(id);
-            if (article == null)
-            {
-                return NotFound();
-            }
-            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, article, ArticleOperations.Delete);
-
-
-            if (!isAuthorized.Succeeded)
-            {
-                return new ChallengeResult();
-            }
-            await _articleController.Delete(id);
-
+            await _articleController.Delete(id, User);
             return RedirectToPage("./Index");
         }
     }

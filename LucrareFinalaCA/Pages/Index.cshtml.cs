@@ -18,9 +18,9 @@ namespace LucrareFinalaCA.Pages
         public List<ArticleViewModel> Articles { get; set; }
         [BindProperty(SupportsGet = true)]
         public string searchString { get; set; }
-        public IndexModel(ApplicationDbContext ctx)
+        public IndexModel(ApplicationDbContext ctx, IAuthorizationService authorizationService)
         {
-            _articleController = new ArticleController(ctx);
+            _articleController = new ArticleController(ctx, authorizationService);
         }
 
         public async Task<IActionResult> OnGet()

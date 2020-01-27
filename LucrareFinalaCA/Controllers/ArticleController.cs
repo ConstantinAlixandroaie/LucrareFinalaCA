@@ -10,18 +10,19 @@ using Microsoft.AspNetCore.Authorization;
 using LucrareFinalaCA.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace LucrareFinalaCA.Controllers
 {
     public class ArticleController : BaseSiteController<ArticleViewModel>
     {
-        
-        protected IAuthorizationService AuthorizationService { get; }
-        public ArticleController(ApplicationDbContext ctx) : base(ctx)
+        public ArticleController(ApplicationDbContext ctx,IAuthorizationService authorizationService) : base(ctx, authorizationService)
         {
+
         }
-        public override async Task Add(ArticleViewModel vm)
+
+        public override async Task Add(ArticleViewModel vm, ClaimsPrincipal user)
         {
             if (vm == null)
                 throw new ArgumentNullException(nameof(vm));
@@ -50,6 +51,12 @@ namespace LucrareFinalaCA.Controllers
 
             var newcategs = vm.Categories.Except(availablecategorynames.ToArray());
 
+            //var isAuthorized = await _authorizationService.AuthorizeAsync(user, article, ArticleOperations.Create);
+            //if (!isAuthorized.Succeeded)
+            //{
+            //    throw new ArgumentException("The currently logged in user is not allowed to add articles");
+            //}
+
             using (var transaction = _ctx.Database.BeginTransaction())
             {
                 try
@@ -64,6 +71,12 @@ namespace LucrareFinalaCA.Controllers
                     };
                     _ctx.Articles.Add(article);
                     await _ctx.SaveChangesAsync();
+
+                    var isAuthorized = await _authorizationService.AuthorizeAsync(user, article, ArticleOperations.Create);
+                    if (!isAuthorized.Succeeded)
+                    {
+                        throw new ArgumentException("The currently logged in user is not allowed to add articles");
+                    }
 
                     foreach (var categ in newcategs)
                     {
@@ -97,22 +110,35 @@ namespace LucrareFinalaCA.Controllers
                 }
             }
         }
-        public override async Task Delete(int id)
+        public override async Task Delete(int id,ClaimsPrincipal user)
         {
+
             var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == id);
             if (article == null)
+            { 
                 throw new ArgumentException($"An Article with the given ID = '{id}' was not found ");
+            }
+            var isAuthorized = await _authorizationService.AuthorizeAsync(user, article, ArticleOperations.Delete);
+            if (!isAuthorized.Succeeded)
+            {
+                throw new ArgumentException("The currently logged in user is not allowed to delete that article.");
+            }
             _ctx.Articles.Remove(article);
             await _ctx.SaveChangesAsync();
         }
 
-        public override async Task Edit(ArticleViewModel vm)
+        public override async Task Edit(ArticleViewModel vm, ClaimsPrincipal user)
         {
             var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == vm.Id);
 
             if (article == null)
                 throw new ArgumentException($"An Article with the given ID = '{vm.Id}' was not found ");
 
+            var isAuthorized = await _authorizationService.AuthorizeAsync(user, article, ArticleOperations.Update);
+            if (!isAuthorized.Succeeded)
+            {
+                throw new ArgumentException("The currently logged in user is not allowed to edit that article.");
+            }
             if (vm.Title != null)
                 article.Title = vm.Title;
             if (vm.ArticleText != null)
@@ -123,7 +149,6 @@ namespace LucrareFinalaCA.Controllers
                 article.EditedDate = DateTime.Now;
                 _ctx.Attach(article).State = EntityState.Modified;
                 await _ctx.SaveChangesAsync();
-
         }
 
         public override async Task<List<ArticleViewModel>> GetAsync()

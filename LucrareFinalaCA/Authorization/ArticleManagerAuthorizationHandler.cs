@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace LucrareFinalaCA.Authorization
 {
-    public class ArticleManagerAuthorizationHandler:
+    public class ArticleManagerAuthorizationHandler :
          AuthorizationHandler<OperationAuthorizationRequirement, Article>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Article resource)
         {
-            if (context.User==null || resource==null)
+            if (context.User == null || resource == null)
+            {
+                return Task.CompletedTask;
+            }
+            //can do any operation on any article besides delete.
+            if (requirement.Name != Constants.CreateOperationName &&
+                requirement.Name != Constants.ReadOperationName &&
+                requirement.Name != Constants.UpdateOperationName)
             {
                 return Task.CompletedTask;
             }

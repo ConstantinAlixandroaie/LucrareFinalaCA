@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LucrareFinalaCA.Controllers;
 using LucrareFinalaCA.Data;
 using LucrareFinalaCA.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,15 +20,12 @@ namespace LucrareFinalaCA
         public ArticleViewModel Article { get; set; }
         [BindProperty]
         public IFormFile Image { get; set; }
-        public EditArticleModel(ApplicationDbContext ctx)
+        public EditArticleModel(ApplicationDbContext ctx,IAuthorizationService authorizationService)
         {
-            _articleController = new ArticleController(ctx);
+            _articleController = new ArticleController(ctx,authorizationService);
         }
         public async Task<IActionResult> OnGet(int id)
         {
-            if (!User.Identity.IsAuthenticated)
-                return Redirect("/Identity/Account/Login");
-
             Article = await _articleController.GetByIdAsync(id);
 
             return Page();
@@ -46,7 +44,7 @@ namespace LucrareFinalaCA
                 }
             }
 
-            await _articleController.Edit(Article);
+            await _articleController.Edit(Article,User);
             return RedirectToPage("/Article");
         }
     }

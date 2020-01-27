@@ -5,31 +5,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LucrareFinalaCA.Controllers
 {
     public class CategoryController : BaseSiteController<CategoryViewModel>
     {
 
-        public CategoryController(ApplicationDbContext ctx) : base(ctx)
+        public CategoryController(ApplicationDbContext ctx,IAuthorizationService authorizationService) : base(ctx,authorizationService)
         {
 
         }
         string[] separator = { ",", " " };
-        public override Task Add(CategoryViewModel vm)
+        public override Task Add(CategoryViewModel vm,ClaimsPrincipal user)
         {
             //never used.
             //Category add fucntion is performed by the article controller
             throw new NotImplementedException();
         }
 
-        public override Task Delete(int id)
+        public override Task Delete(int id, ClaimsPrincipal user)
         {
             //never used
             throw new NotImplementedException();
         }
 
-        public override Task Edit(CategoryViewModel vm)
+        public override Task Edit(CategoryViewModel vm, ClaimsPrincipal user)
         {
             //never used
             throw new NotImplementedException();
