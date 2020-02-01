@@ -8,6 +8,7 @@ using LucrareFinalaCA.Data;
 using LucrareFinalaCA.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -20,9 +21,9 @@ namespace LucrareFinalaCA
         public ArticleViewModel Article { get; set; }
         [BindProperty]
         public IFormFile Image { get; set; }
-        public EditArticleModel(ApplicationDbContext ctx,IAuthorizationService authorizationService)
+        public EditArticleModel(ApplicationDbContext ctx,IAuthorizationService authorizationService, UserManager<IdentityUser> userManager)
         {
-            _articleController = new ArticleController(ctx,authorizationService);
+            _articleController = new ArticleController(ctx,authorizationService,userManager);
         }
         public async Task<IActionResult> OnGet(int id)
         {

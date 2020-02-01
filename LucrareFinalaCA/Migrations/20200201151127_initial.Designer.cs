@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LucrareFinalaCA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191209080329_initial")]
+    [Migration("20200201151127_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,8 @@ namespace LucrareFinalaCA.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("ApprovedStatus");
 
                     b.Property<string>("ArticleText");
 
@@ -57,6 +59,21 @@ namespace LucrareFinalaCA.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ArticleCategoryMappings");
+                });
+
+            modelBuilder.Entity("LucrareFinalaCA.Data.ArticleEditorMapping", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArticleId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ArticleEditorMappings");
                 });
 
             modelBuilder.Entity("LucrareFinalaCA.Data.ArticleRatingMapping", b =>
@@ -217,11 +234,9 @@ namespace LucrareFinalaCA.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -252,11 +267,9 @@ namespace LucrareFinalaCA.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 

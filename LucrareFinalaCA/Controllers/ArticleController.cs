@@ -17,9 +17,8 @@ namespace LucrareFinalaCA.Controllers
 {
     public class ArticleController : BaseSiteController<ArticleViewModel>
     {
-        public ArticleController(ApplicationDbContext ctx,IAuthorizationService authorizationService) : base(ctx, authorizationService)
+        public ArticleController(ApplicationDbContext ctx, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager) : base(ctx, authorizationService, userManager)
         {
-
         }
 
         public override async Task Add(ArticleViewModel vm, ClaimsPrincipal user)
@@ -68,6 +67,7 @@ namespace LucrareFinalaCA.Controllers
                         ArticleText = vm.ArticleText,
                         Author = vm.Author,
                         IssueDate = DateTime.Now,
+                        ApprovedStatus = vm.ApprovedStatus
                     };
                     _ctx.Articles.Add(article);
                     await _ctx.SaveChangesAsync();
@@ -110,12 +110,12 @@ namespace LucrareFinalaCA.Controllers
                 }
             }
         }
-        public override async Task Delete(int id,ClaimsPrincipal user)
+        public override async Task Delete(int id, ClaimsPrincipal user)
         {
 
             var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == id);
             if (article == null)
-            { 
+            {
                 throw new ArgumentException($"An Article with the given ID = '{id}' was not found ");
             }
             var isAuthorized = await _authorizationService.AuthorizeAsync(user, article, ArticleOperations.Delete);
@@ -130,7 +130,7 @@ namespace LucrareFinalaCA.Controllers
         public override async Task Edit(ArticleViewModel vm, ClaimsPrincipal user)
         {
             var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == vm.Id);
-
+            var userId = _userManager.GetUserId(user);
             if (article == null)
                 throw new ArgumentException($"An Article with the given ID = '{vm.Id}' was not found ");
 
@@ -147,8 +147,14 @@ namespace LucrareFinalaCA.Controllers
                 article.Image = vm.Image;
             if (vm.Title != null || vm.ArticleText != null || vm.Image != null)
                 article.EditedDate = DateTime.Now;
-                _ctx.Attach(article).State = EntityState.Modified;
-                await _ctx.SaveChangesAsync();
+            _ctx.Attach(article).State = EntityState.Modified;
+            ArticleEditorMapping articleEditorMapping = new ArticleEditorMapping()
+            {
+                ArticleId = article.Id,
+                UserId = userId
+            };
+            _ctx.Add(articleEditorMapping);
+            await _ctx.SaveChangesAsync();
         }
 
         public override async Task<List<ArticleViewModel>> GetAsync()
@@ -157,17 +163,20 @@ namespace LucrareFinalaCA.Controllers
             var articles = await _ctx.Articles.ToListAsync();
             foreach (var article in articles)
             {
-                var vm = new ArticleViewModel()
+                if (article.ApprovedStatus)
                 {
-                    Id = article.Id,
-                    Title = article.Title,
-                    Image = article.Image,
-                    Author = article.Author,
-                    ArticleText = article.ArticleText,
-                    IssueDate = article.IssueDate,
-                    EditedDate = article.EditedDate,
-                };
-                rv.Add(vm);
+                    var vm = new ArticleViewModel()
+                    {
+                        Id = article.Id,
+                        Title = article.Title,
+                        Image = article.Image,
+                        Author = article.Author,
+                        ArticleText = article.ArticleText,
+                        IssueDate = article.IssueDate,
+                        EditedDate = article.EditedDate,
+                    };
+                    rv.Add(vm);
+                }
             }
             return rv;
         }
@@ -178,6 +187,10 @@ namespace LucrareFinalaCA.Controllers
             if (article == null)
             {
                 throw new ArgumentException($"An Article with the given ID = '{id}' was not found ");
+            }
+            if (!article.ApprovedStatus)
+            {
+                throw new ArgumentException($"The article with the given Id='{id}' has yet to be approved!");
             }
             var rv = new ArticleViewModel()
             {
@@ -201,38 +214,153 @@ namespace LucrareFinalaCA.Controllers
                                  select a;
             if (!string.IsNullOrEmpty(searchString))
             {
-                searcharticles = searcharticles.Where(s => s.Title.Contains(searchString));
+                searcharticles = searcharticles.Where(s => s.Title.Contains(searchString) || s.ArticleText.Contains(searchString));
                 foreach (var art in searcharticles)
                 {
-                    var vm = new ArticleViewModel()
+                    if (art.ApprovedStatus)
                     {
-                        Id = art.Id,
-                        Title = art.Title,
-                        Image = art.Image,
-                        Author = art.Author,
-                        ArticleText = art.ArticleText,
-                        IssueDate = art.IssueDate,
-                        EditedDate = art.EditedDate,
-                    };
-                    rv.Add(vm);
+                        var vm = new ArticleViewModel()
+                        {
+                            Id = art.Id,
+                            Title = art.Title,
+                            Image = art.Image,
+                            Author = art.Author,
+                            ArticleText = art.ArticleText,
+                            IssueDate = art.IssueDate,
+                            EditedDate = art.EditedDate,
+                        };
+                        rv.Add(vm);
+                    }
                 }
             }
             else
                 foreach (var art in articles)
                 {
+                    if (art.ApprovedStatus)
+                    {
+                        var vm = new ArticleViewModel()
+                        {
+                            Id = art.Id,
+                            Title = art.Title,
+                            Image = art.Image,
+                            Author = art.Author,
+                            ArticleText = art.ArticleText,
+                            IssueDate = art.IssueDate,
+                            EditedDate = art.EditedDate,
+                        };
+                        rv.Add(vm);
+                    }
+                }
+            return rv;
+        }
+
+        public async Task ApproveArticle(int id, ClaimsPrincipal user)
+        {
+            var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == id);
+            if (article == null)
+            {
+                throw new ArgumentException($"An Article with the given ID = '{id}' was not found ");
+            }
+            var isAuthorized = await _authorizationService.AuthorizeAsync(user, article, ArticleOperations.Approve);
+            if (!isAuthorized.Succeeded)
+            {
+                throw new ArgumentException("The currently logged in user is not allowed to delete that article.");
+            }
+            article.ApprovedStatus = true;
+            _ctx.Attach(article).State = EntityState.Modified;
+            await _ctx.SaveChangesAsync();
+        }
+
+        public async Task<List<ArticleViewModel>> GetUnapprovedAsync()
+        {
+            var rv = new List<ArticleViewModel>();
+            var articles = await _ctx.Articles.ToListAsync();
+            foreach (var article in articles)
+            {
+                if (!article.ApprovedStatus)
+                {
                     var vm = new ArticleViewModel()
                     {
-                        Id = art.Id,
-                        Title = art.Title,
-                        Image = art.Image,
-                        Author = art.Author,
-                        ArticleText = art.ArticleText,
-                        IssueDate = art.IssueDate,
-                        EditedDate = art.EditedDate,
+                        Id = article.Id,
+                        Title = article.Title,
+                        Image = article.Image,
+                        Author = article.Author,
+                        ArticleText = article.ArticleText,
+                        IssueDate = article.IssueDate,
+                        EditedDate = article.EditedDate,
                     };
                     rv.Add(vm);
                 }
-                return rv;
             }
+            return rv;
+        }
+
+        public async Task RateArticle(int articleId, int ratingId)
+        {
+            var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == articleId);
+            if (article == null)
+            {
+                throw new ArgumentException($"An Article with the given ID = '{articleId}' was not found ");
+            }
+            ArticleRatingMapping articleRatingMapping = new ArticleRatingMapping()
+            {
+                ArtId = article.Id,
+                RatingId = ratingId
+            };
+            _ctx.ArticleRatingMappings.Add(articleRatingMapping);
+            await _ctx.SaveChangesAsync();
+        }
+        public async Task<List<ArticleViewModel>> GetByEditor(ClaimsPrincipal user)
+        {
+            var rv = new List<ArticleViewModel>();
+            var userId = _userManager.GetUserId(user);
+
+            var query = await (from art in _ctx.Articles
+                               join maps in _ctx.ArticleEditorMappings on art.Id equals maps.ArticleId
+                               where maps.UserId==userId
+                               select art).ToListAsync();
+
+            foreach (var article in query)
+            {
+                var vm = new ArticleViewModel()
+                {
+                    Id = article.Id,
+                    Title = article.Title,
+                    Image = article.Image,
+                    Author = article.Author,
+                    ArticleText = article.ArticleText,
+                    IssueDate = article.IssueDate,
+                    EditedDate = article.EditedDate,
+                };
+                rv.Add(vm);
+            }
+            return rv;
+        }
+        public async Task<List<ArticleViewModel>> GetByAuthor(ClaimsPrincipal user)
+        {
+            var rv = new List<ArticleViewModel>();
+            var userId = _userManager.GetUserId(user);
+            var articles = await (from art in _ctx.Articles
+                                  where art.Author == userId
+                                  select art).ToListAsync();
+
+            foreach (var article in articles)
+            {
+                var vm = new ArticleViewModel()
+                {
+                    Id = article.Id,
+                    Title = article.Title,
+                    Image = article.Image,
+                    Author = article.Author,
+                    ArticleText = article.ArticleText,
+                    IssueDate = article.IssueDate,
+                    EditedDate = article.EditedDate,
+                };
+                rv.Add(vm);
+            }
+            return rv;
         }
     }
+}
+
+

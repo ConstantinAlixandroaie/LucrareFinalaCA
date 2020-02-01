@@ -14,5 +14,6 @@ namespace LucrareFinalaCA.Data
         public string ArticleText { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime? EditedDate { get; set; }
+        public bool ApprovedStatus { get; set; }
     }
 }

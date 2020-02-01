@@ -18,14 +18,12 @@ namespace LucrareFinalaCA
     public class ArticleModel : PageModel
     {
         private readonly ArticleController _articleController;
-        private readonly UserManager<IdentityUser> _userManager;
         [BindProperty]
         public List<ArticleViewModel> Articles { get; set; }
         [BindProperty]
         public ArticleViewModel Article { get; set; }
         [BindProperty]
         protected IAuthorizationService AuthorizationService { get; }
-        protected ApplicationDbContext _ctx { get; }
         [BindProperty]
         public bool IsbyId { get; set; }
         [BindProperty]
@@ -33,15 +31,11 @@ namespace LucrareFinalaCA
 
         public ArticleModel(ApplicationDbContext ctx, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager)
         {
-            _articleController = new ArticleController(ctx, authorizationService);
-            _ctx = ctx;
-            AuthorizationService = authorizationService;
-            _userManager = userManager;
+            _articleController = new ArticleController(ctx, authorizationService,userManager);
         }
 
         public async Task<IActionResult> OnGet(int? qid = null)
         {
-            UserID = _userManager.GetUserId(User);
             if (qid != null)
                 return await OnGetWithId(qid.Value);
             Articles = await _articleController.GetAsync();

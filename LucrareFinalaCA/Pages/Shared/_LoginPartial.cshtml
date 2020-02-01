@@ -1,5 +1,4 @@
 @using Microsoft.AspNetCore.Identity
-
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -9,6 +8,14 @@
         <li>
             <a asp-page="/AddArticle" title="Add Article">Add Articles</a>
         </li>
+        @if (User.IsInRole("ArticlesAdministrators")|| User.IsInRole("ArticlesManager"))
+        {
+            <li>
+                <a class="notification" asp-page="/ApproveArticles" title="Aprove Articles">
+                    Approve Articles
+                </a>
+            </li>
+        }
     </ul>
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">

@@ -28,7 +28,7 @@ namespace LucrareFinalaCA.Pages
         public IFormFile Image { get; set; }
         public AddArticleModel(ApplicationDbContext ctx, IAuthorizationService authorizationService,UserManager<IdentityUser> userManager)
         {
-            _articleController = new ArticleController(ctx,authorizationService);
+            _articleController = new ArticleController(ctx,authorizationService,userManager);
             _userManager = userManager;
         }
 

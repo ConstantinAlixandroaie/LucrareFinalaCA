@@ -9,13 +9,15 @@ namespace LucrareFinalaCA.Controllers
 {
     public abstract class BaseSiteController<T>
     {
+        protected readonly UserManager<IdentityUser> _userManager;
         protected readonly ApplicationDbContext _ctx;
         protected readonly IAuthorizationService _authorizationService;
 
-        public BaseSiteController(ApplicationDbContext ctx, IAuthorizationService authorizationService)
+        public BaseSiteController(ApplicationDbContext ctx, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager)
         {
             _ctx = ctx;
             _authorizationService = authorizationService;
+            _userManager = userManager;
         }
 
         public abstract Task<List<T>> GetAsync();

@@ -90,7 +90,7 @@ namespace LucrareFinalaCA.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt. Make sure you confirmed your email address.");
                     return Page();
                 }
             }

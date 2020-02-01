@@ -1,0 +1,48 @@
+﻿@page
+@model LucrareFinalaCA.ApproveArticlesModel
+@{
+    ViewData["Title"] = "ApproveArticles";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>ApproveArticles</h2>
+
+<form method="Post" class="col-xs-12" enctype="multipart/form-data">
+    <div class="col-xs-12">
+        @foreach (var article in Model.Articles)
+        {
+            <div class="col-md-3 container d-flex justify-content-center">
+                <figure class="col-md-12 card-product-grid">
+                    <a href="/Article/@article.Id" class="img-wrap" data-abc="true">
+                        <img class="img-thumbnail" src="data:image;base64,@Convert.ToBase64String(article.Image)" />
+                    </a>
+                    <figcaption class="info-wrap">
+                        <div class="row">
+                            <div class="col-md-9"> <a href="/Article/@article.Id" class="title" data-abc="true">@article.Title</a> </div>
+                            <div class="col-md-3">
+                                <div class="rating text-right"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
+                            </div>
+                        </div>
+                    </figcaption>
+                    <div class="cardbottom">
+                        @article.ArticleText
+                    </div>
+                    <div>
+                        @if (User.IsInRole(Constants.ArticleAdministratorsRole))
+                        {
+                            <button type="submit" class="danger" asp-page-handler="approve" asp-route-id="@article.Id">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <Viewbox>
+                                            <TextBlock class="text-center">Approve</TextBlock>
+                                        </Viewbox>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </button>
+                        }
+                    </div>
+                </figure>
+            </div>
+        }
+    </div>
+</form>

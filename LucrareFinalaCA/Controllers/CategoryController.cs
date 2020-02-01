@@ -7,13 +7,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace LucrareFinalaCA.Controllers
 {
     public class CategoryController : BaseSiteController<CategoryViewModel>
     {
 
-        public CategoryController(ApplicationDbContext ctx,IAuthorizationService authorizationService) : base(ctx,authorizationService)
+        public CategoryController(ApplicationDbContext ctx,IAuthorizationService authorizationService, UserManager<IdentityUser> userManager) : base(ctx,authorizationService, userManager)
         {
 
         }

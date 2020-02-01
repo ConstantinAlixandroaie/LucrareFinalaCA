@@ -17,6 +17,8 @@ namespace LucrareFinalaCA.ViewModels
         public DateTime IssueDate { get; set; }
         public DateTime? EditedDate { get; set; }
         public string[] Categories { get; set; }
-        public List<RatingViewModel> Ratings { get; set; }
+        public bool ApprovedStatus { get; set; }
+
+        //public List<RatingViewModel> Ratings { get; set; }
     }
 }
