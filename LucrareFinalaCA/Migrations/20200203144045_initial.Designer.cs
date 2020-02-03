@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LucrareFinalaCA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200201151127_initial")]
+    [Migration("20200203144045_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,21 +76,6 @@ namespace LucrareFinalaCA.Migrations
                     b.ToTable("ArticleEditorMappings");
                 });
 
-            modelBuilder.Entity("LucrareFinalaCA.Data.ArticleRatingMapping", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ArtId");
-
-                    b.Property<int>("RatingId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ArticleRatingMappings");
-                });
-
             modelBuilder.Entity("LucrareFinalaCA.Data.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -102,19 +87,6 @@ namespace LucrareFinalaCA.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("LucrareFinalaCA.Data.Rating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RatingGrade");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

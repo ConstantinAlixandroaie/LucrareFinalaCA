@@ -10,9 +10,7 @@ namespace LucrareFinalaCA.Data
     {
         public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
         public DbSet<ArticleCategoryMapping> ArticleCategoryMappings { get; set; }
-        public DbSet<ArticleRatingMapping> ArticleRatingMappings { get; set; }
         public DbSet<ArticleEditorMapping> ArticleEditorMappings { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

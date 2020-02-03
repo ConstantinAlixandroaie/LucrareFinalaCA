@@ -294,22 +294,6 @@ namespace LucrareFinalaCA.Controllers
             }
             return rv;
         }
-
-        public async Task RateArticle(int articleId, int ratingId)
-        {
-            var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == articleId);
-            if (article == null)
-            {
-                throw new ArgumentException($"An Article with the given ID = '{articleId}' was not found ");
-            }
-            ArticleRatingMapping articleRatingMapping = new ArticleRatingMapping()
-            {
-                ArtId = article.Id,
-                RatingId = ratingId
-            };
-            _ctx.ArticleRatingMappings.Add(articleRatingMapping);
-            await _ctx.SaveChangesAsync();
-        }
         public async Task<List<ArticleViewModel>> GetByEditor(ClaimsPrincipal user)
         {
             var rv = new List<ArticleViewModel>();
@@ -317,7 +301,7 @@ namespace LucrareFinalaCA.Controllers
 
             var query = await (from art in _ctx.Articles
                                join maps in _ctx.ArticleEditorMappings on art.Id equals maps.ArticleId
-                               where maps.UserId==userId
+                               where maps.UserId == userId
                                select art).ToListAsync();
 
             foreach (var article in query)
