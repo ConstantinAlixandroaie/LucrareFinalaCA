@@ -10,11 +10,14 @@
         </li>
         @if (User.IsInRole("ArticlesAdministrators")|| User.IsInRole("ArticlesManager"))
         {
-            <li>
-                <a class="notification" asp-page="/ApproveArticles" title="Aprove Articles">
-                    Approve Articles
-                </a>
-            </li>
+    <li>
+        <a class="notification" asp-page="/ApproveArticles" title="Aprove Articles">
+            Approve Articles
+        </a>
+        <a class="notification" asp-page="/UserManagementPage" title="User Admin">
+            User Admin
+        </a>
+    </li>
         }
     </ul>
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">

@@ -1,0 +1,35 @@
+﻿@page
+@model LucrareFinalaCA.UserManagementPageModel
+@{
+    ViewData["Title"] = "UserManagementPage";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>UserManagementPage</h2>
+
+<form method="Post" enctype="multipart/form-data">
+    <select asp-for="selectedUser">
+        <option value="">Choose User</option>
+        @foreach (var user in Model.Users)
+        {
+            <option value="@user.UserName">@user.UserName</option>
+        }
+    </select>
+    <select  asp-for="selectedRole">
+        <option value="">Choose Role</option>
+        @foreach (var role in @Model.userRoles)
+        {
+            <option value="@role.ToString()">@role.ToString()</option>
+        }
+
+    </select>
+    <button type="submit" asp-page-handler="promote">
+        <Button.ContentTemplate>
+            <DataTemplate>
+                <Viewbox>
+                    <TextBlock class="text-center">Assign Role</TextBlock>
+                </Viewbox>
+            </DataTemplate>
+        </Button.ContentTemplate>
+    </button>
+</form>

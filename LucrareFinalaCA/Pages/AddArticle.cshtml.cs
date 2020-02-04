@@ -43,7 +43,7 @@ namespace LucrareFinalaCA.Pages
             {
                 BinaryReader reader = new BinaryReader(Image.OpenReadStream());
                 Article.Categories = categories.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-                Article.Author = _userManager.GetUserId(User);
+                Article.Author = _userManager.GetUserName(User);
                 Article.Image = reader.ReadBytes((int)Image.Length);
                 await _articleController.Add(Article,User);
                 return RedirectToPage("/Index");

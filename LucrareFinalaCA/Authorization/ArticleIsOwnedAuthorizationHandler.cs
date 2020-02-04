@@ -36,7 +36,7 @@ namespace LucrareFinalaCA.Authorization
                 return Task.CompletedTask;
             }
 
-            if (resource.Author == _userManager.GetUserId(context.User))
+            if (resource.Author == _userManager.GetUserName(context.User))
             {
                 context.Succeed(requirement);
             }
