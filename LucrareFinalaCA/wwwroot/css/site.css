@@ -1,6 +1,8 @@
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
 for details on configuring this project to bundle and minify static web assets. */
 body {
+    height: 100%;
+    margin: 0;
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -79,10 +81,10 @@ body {
 }
 
 .card-product-grid:hover {
-    -webkit-box-shadow: 0 4px 15px rgba(153, 153, 153, 0.3);
-    box-shadow: 0 4px 15px rgba(153, 153, 153, 0.3);
-    -webkit-transition: .3s;
-    transition: .3s
+    -webkit-box-shadow: 0 8px 15px rgba(82, 0, 0, 0.82);
+    box-shadow: 0 8px 15px rgba(82, 0, 0, 0.82);
+    -webkit-transition: .6s;
+    transition: .6s
 }
 
 .card-product-grid .img-wrap {
@@ -191,6 +193,7 @@ body {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    color:azure;
 }
 .notification {
     text-decoration: none;
@@ -209,3 +212,16 @@ body {
         background-color: red;
         color: white;
     }
+.sitebackground {
+    background-image:url(/images/sitebackground.png);
+    /* Full height */
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+body, html {
+    height: 100%;
+    margin: 0;
+}
