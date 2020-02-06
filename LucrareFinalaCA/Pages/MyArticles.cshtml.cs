@@ -12,12 +12,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LucrareFinalaCA
 {
-    public class GetMyArticlesTestModel : PageModel
+    public class MyArticles : PageModel
     {
         private readonly ArticleController _articleController;
         public List<ArticleViewModel> EditedArticles { get; set; }
         public List<ArticleViewModel> AuthorArticles { get; set; }
-        public GetMyArticlesTestModel(ApplicationDbContext ctx, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager)
+        public MyArticles(ApplicationDbContext ctx, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager)
         {
             _articleController = new ArticleController(ctx, authorizationService, userManager);
         }

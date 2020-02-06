@@ -32,6 +32,6 @@ namespace LucrareFinalaCA.Authorization
         public static readonly string ArticleAdministratorsRole = "ArticlesAdministrators";
 
         public static readonly string ArticleManagersRole = "ArticlesManagers";
-
+        public static readonly string ArticleEditorRole = "ArticlesEditor";
     }
 }

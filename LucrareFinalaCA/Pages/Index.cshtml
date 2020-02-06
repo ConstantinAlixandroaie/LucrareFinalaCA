@@ -15,27 +15,66 @@
             <input type="submit" value="Search" />
         </p>
     </form>
-    <div class="col-xs-12">
-        @foreach (var article in Model.Articles)
-        {
-            <div class="col-xs-3 container d-flex justify-content-center">
-                <figure class="col-lg-12 card-product-grid">
-                    <a href="/Article/@article.Id" class="img-wrap" data-abc="true">
-                        <img class="img-thumbnail" src="data:image;base64,@Convert.ToBase64String(article.Image)" />
-                    </a>
-                    <figcaption class="info-wrap">
-                        <div class="row">
-                            <div class="col-xs-9"> <a href="/Article/@article.Id" class="title" data-abc="true">@article.Title</a> </div>
-                            <div class="col-xs-3">
-                                <div class="rating text-right"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
-                            </div>
-                        </div>
-                    </figcaption>
-                    <div class="cardbottom">
-                        @article.ArticleText
-                    </div>
-                </figure>
+</div>
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="~/images/Carrousel1.png" alt="ASP.NET" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p>
+                </p>
             </div>
-        }
+        </div>
+        <div class="item">
+            <img src="~/images/Carrousel2.png" alt="Visual Studio" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p>
+
+                </p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="~/images/Carrousel3.png" alt="Microsoft Azure" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p>
+                </p>
+            </div>
+        </div>
     </div>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<div class="col-xs-12">
+    @foreach (var article in Model.Articles)
+    {
+        <div class="col-xs-3 container d-flex justify-content-center">
+            <figure class="col-lg-12 card-product-grid">
+                <a href="/Article/@article.Id" class="img-wrap" data-abc="true">
+                    <img class="img-thumbnail" src="data:image;base64,@Convert.ToBase64String(article.Image)" />
+                </a>
+                <figcaption class="info-wrap">
+                    <div class="row">
+                        <div class="col-xs-9"> <a href="/Article/@article.Id" class="title" data-abc="true"></a> </div>
+                        <div class="col-xs-3">
+                            <div class="rating text-right"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
+                        </div>
+                    </div>
+                </figcaption>
+                <div class="cardbottom">
+                    @article.ArticleText
+                </div>
+            </figure>
+        </div>
+    }
 </div>

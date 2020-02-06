@@ -1,10 +1,11 @@
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
 for details on configuring this project to bundle and minify static web assets. */
-body {
+body,html {
     height: 100%;
     margin: 0;
-    padding-top: 50px;
-    padding-bottom: 20px;
+    overflow-x: hidden;
+    /*padding-top: 50px;
+    padding-bottom: 20px;*/
 }
 
 /* Wrapping element */
@@ -37,26 +38,6 @@ body {
         display: none;
     }
 }
-
-/*.spanner {
-    line-height: 2;
-    cursor: pointer;
-    margin: 0 auto;
-}
-
-.linkSpanner {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    /* edit: fixes overlap error in IE7/8, 
-     make sure you have an empty gif 
-  background-image: url('empty.gif');
-}
-    */
-
 
 .card {
     width: 500px;
@@ -221,7 +202,19 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
-body, html {
-    height: 100%;
-    margin: 0;
+.text-color{
+    color:azure
+}
+.image-to-wrap {
+    float: left;
+    width: 250px;
+    shape-outside:margin-box;
+    shape-margin:20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.wrapper {
+    column-count: 1;
+    column-gap: 50px;
+    padding: 50px;
 }

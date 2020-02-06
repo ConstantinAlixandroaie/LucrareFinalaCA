@@ -36,6 +36,7 @@ namespace LucrareFinalaCA
             userRoles = new List<string>();
             userRoles.Add(Constants.ArticleAdministratorsRole);
             userRoles.Add(Constants.ArticleManagersRole);
+            userRoles.Add(Constants.ArticleEditorRole);
             Users = await _userController.GetUsersAsync();
             return Page();
         }
