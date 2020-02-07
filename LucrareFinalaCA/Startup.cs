@@ -80,6 +80,7 @@ namespace LucrareFinalaCA
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             //Authorization Handlers.
+            services.AddScoped<IAuthorizationHandler, ArticleEditorsAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, ArticleIsOwnedAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, ArticleManagerAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, ArticleAdministratorsAuthorizationHandler>();

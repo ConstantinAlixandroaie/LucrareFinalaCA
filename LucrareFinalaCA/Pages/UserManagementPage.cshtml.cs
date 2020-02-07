@@ -43,7 +43,7 @@ namespace LucrareFinalaCA
         public async Task<IActionResult> OnPostPromote()
         {
             await _userController.AssignRoleAsync(selectedUser, selectedRole);
-            return Page();
+            return RedirectToPage("/UserManagementPage");
         }
     }
 }
