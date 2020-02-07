@@ -1,6 +1,6 @@
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
 for details on configuring this project to bundle and minify static web assets. */
-body,html {
+body, html {
     height: 100%;
     margin: 0;
     overflow-x: hidden;
@@ -56,9 +56,9 @@ body,html {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0.10rem;
     margin-top: 50px;
-    margin-left:10px;
-    margin-right:10px;
-    margin-bottom :10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .card-product-grid:hover {
@@ -169,13 +169,14 @@ body,html {
 .fa {
     color: #FF5722
 }
+
 .cardbottom {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    color:azure;
 }
+
 .notification {
     text-decoration: none;
     padding: 15px 26px;
@@ -193,8 +194,9 @@ body,html {
         background-color: red;
         color: white;
     }
+
 .sitebackground {
-    background-image:url(/images/sitebackground.png);
+    background-image: url(../images/sitebackground.png);
     /* Full height */
     height: 100%;
     /* Center and scale the image nicely */
@@ -202,17 +204,20 @@ body,html {
     background-repeat: no-repeat;
     background-size: cover;
 }
-.text-color{
-    color:azure
+
+.text-color {
+    color: azure
 }
+
 .image-to-wrap {
     float: left;
     width: 250px;
-    shape-outside:margin-box;
-    shape-margin:20px;
+    shape-outside: margin-box;
+    shape-margin: 20px;
     margin-right: 20px;
     margin-bottom: 20px;
 }
+
 .wrapper {
     column-count: 1;
     column-gap: 50px;

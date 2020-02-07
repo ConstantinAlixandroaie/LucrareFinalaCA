@@ -10,75 +10,77 @@
 <hr />
 <h2>Edited by me</h2>
 
-<table class="table text-color">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Issue Date</th>
-            <th>Edited Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var article in Model.EditedArticles)
-        {
+<div style="background:border-box,#ffffff">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @article.Title
-                </td>
-                <td>
-                    @article.IssueDate
-                </td>
-                <td>
-                    @if (@article.EditedDate != null)
-                    {
-                        @article.EditedDate;
-                    }
-                    else
-                    {
-                        <p>
-                            Not edited yet.
-                        </p>
-                    }
-                </td>
+                <th>Title</th>
+                <th>Issue Date</th>
+                <th>Edited Date</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var article in Model.EditedArticles)
+            {
+                <tr>
+                    <td>
+                        @article.Title
+                    </td>
+                    <td>
+                        @article.IssueDate
+                    </td>
+                    <td>
+                        @if (@article.EditedDate != null)
+                        {
+                            @article.EditedDate;
+                        }
+                        else
+                        {
+                            <p>
+                                Not edited yet.
+                            </p>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<h2>Created by me</h2>
-<table class="table text-color">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Issue Date</th>
-            <th>Edited Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var article in Model.AuthorArticles)
-        {
+    <h2>Created by me</h2>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @article.Title
-                </td>
-                <td>
-                    @article.IssueDate
-                </td>
-                <td>
-                    @if (@article.EditedDate != null)
-                    {
-                        @article.EditedDate;
-                    }
-                    else
-                    {
-                        <p>
-                            Not edited yet.
-                        </p>
-                    }
-                </td>
+                <th>Title</th>
+                <th>Issue Date</th>
+                <th>Edited Date</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var article in Model.AuthorArticles)
+            {
+                <tr>
+                    <td>
+                        @article.Title
+                    </td>
+                    <td>
+                        @article.IssueDate
+                    </td>
+                    <td>
+                        @if (@article.EditedDate != null)
+                        {
+                            @article.EditedDate;
+                        }
+                        else
+                        {
+                            <p>
+                                Not edited yet.
+                            </p>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 
