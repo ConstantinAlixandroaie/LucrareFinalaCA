@@ -27,7 +27,7 @@ namespace LucrareFinalaCA
         }
         public async Task<IActionResult> OnGet(int id)
         {
-            Article = await _articleController.GetByIdAsync(id);
+            Article = await _articleController.GetByIdAsync(id,User);
 
             return Page();
 

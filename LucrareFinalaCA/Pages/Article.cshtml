@@ -16,10 +16,33 @@
         <p style="Background:border-box,#ffffff">
             @Model.Article.ArticleText
         </p>
+            <form method="post">
+                @if (User.IsInRole(Constants.ArticleAdministratorsRole)& @Model.Article.ApprovedStatus)
+                {
+                    <button type="submit" class="danger" asp-page-handler="approve" asp-route-id="@Model.Article.Id">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Viewbox>
+                                    <TextBlock class="text-center">Approve</TextBlock>
+                                </Viewbox>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </button>
+                }
+            </form>
     </div>
+
 }
 else
 {
+    <div>
+        <form asp-controller="Movies" asp-action="get" method="get">
+            <p>
+                Title: <input type="text" name="SearchString">
+                <input type="submit" value="Search" />
+            </p>
+        </form>
+    </div>
     <form method="Post" class="col-xs-12" enctype="multipart/form-data">
         <div class="col-xs-12">
             @foreach (var article in Model.Articles)
@@ -41,7 +64,7 @@ else
                             @article.ArticleText
                         </div>
                         <div>
-                            @if (article.Author == Model.UserID || User.IsInRole(Constants.ArticleAdministratorsRole)||User.IsInRole(Constants.ArticleEditorRole))
+                            @if (article.Author == Model.UserID || User.IsInRole(Constants.ArticleAdministratorsRole) || User.IsInRole(Constants.ArticleEditorRole))
                             {
                                 <a href="/EditArticle/@article.Id">Edit</a>
                             }

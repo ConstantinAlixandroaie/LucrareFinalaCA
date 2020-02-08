@@ -21,7 +21,7 @@ namespace LucrareFinalaCA.Controllers
         }
 
         public abstract Task<List<T>> GetAsync();
-        public abstract Task<T> GetByIdAsync(int id);
+        public abstract Task<T> GetByIdAsync(int id, ClaimsPrincipal user);
         public abstract Task Add(T vm, ClaimsPrincipal user);
         public abstract Task Edit(T vm, ClaimsPrincipal user);
         public abstract Task Delete(int id, ClaimsPrincipal user);

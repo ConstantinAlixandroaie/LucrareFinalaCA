@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LucrareFinalaCA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200203144045_initial")]
+    [Migration("20200208065647_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

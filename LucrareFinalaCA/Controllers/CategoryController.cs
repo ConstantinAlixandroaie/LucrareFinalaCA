@@ -59,7 +59,7 @@ namespace LucrareFinalaCA.Controllers
             return rv;
         }
 
-        public override Task<CategoryViewModel> GetByIdAsync(int id)
+        public override Task<CategoryViewModel> GetByIdAsync(int id,ClaimsPrincipal user)
         {
             //never used
             throw new NotImplementedException();

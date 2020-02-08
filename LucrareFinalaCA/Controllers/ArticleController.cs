@@ -181,14 +181,16 @@ namespace LucrareFinalaCA.Controllers
             return rv;
         }
 
-        public override async Task<ArticleViewModel> GetByIdAsync(int id)
+        public override async Task<ArticleViewModel> GetByIdAsync(int id, ClaimsPrincipal user)
         {
             var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == id);
             if (article == null)
             {
                 throw new ArgumentException($"An Article with the given ID = '{id}' was not found ");
             }
-            if (!article.ApprovedStatus)
+            var isAuthorised = await _authorizationService.AuthorizeAsync(user, article, ArticleOperations.Approve);
+            
+            if (!article.ApprovedStatus & (isAuthorised.Succeeded||article.Author==_userManager.GetUserName(user)))
             {
                 throw new ArgumentException($"The article with the given Id='{id}' has yet to be approved!");
             }
@@ -323,7 +325,7 @@ namespace LucrareFinalaCA.Controllers
         public async Task<List<ArticleViewModel>> GetByAuthor(ClaimsPrincipal user)
         {
             var rv = new List<ArticleViewModel>();
-            var userId = _userManager.GetUserId(user);
+            var userId = _userManager.GetUserName(user);
             var articles = await (from art in _ctx.Articles
                                   where art.Author == userId
                                   select art).ToListAsync();
@@ -346,5 +348,3 @@ namespace LucrareFinalaCA.Controllers
         }
     }
 }
-
-
