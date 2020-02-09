@@ -25,16 +25,20 @@ namespace LucrareFinalaCA
         {
             _articleController = new ArticleController(ctx,authorizationService,userManager);
         }
+        [HttpGet]
         public async Task<IActionResult> OnGet(int id)
         {
             Article = await _articleController.GetByIdAsync(id,User);
-
+            
             return Page();
 
 
         }
+        [HttpPost]
         public async Task<IActionResult> OnPostEdit()
         {
+            if (!ModelState.IsValid)
+                return Page();
             if (Image != null)
             {
                 if (Path.GetExtension(Image.FileName).Equals(".png") || Path.GetExtension(Image.FileName).Equals(".jpeg") || Path.GetExtension(Image.FileName).Equals(".jpg")

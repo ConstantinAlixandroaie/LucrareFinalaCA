@@ -26,9 +26,9 @@ namespace LucrareFinalaCA
         [BindProperty]
         public string selectedRole { get; set; }
         
-        public UserManagementPageModel(UserManager<IdentityUser> userManager, ApplicationDbContext ctx, RoleManager<IdentityRole> roleManager)
+        public UserManagementPageModel(UserManager<IdentityUser> userManager, ApplicationDbContext ctx, RoleManager<IdentityRole> roleManager,IAuthorizationService authorizationService)
         {
-            _userController = new UserController(userManager, ctx, roleManager);
+            _userController = new UserController(userManager, ctx, roleManager,authorizationService);
         }
         
         public async Task<IActionResult> OnGetAsync()
@@ -42,7 +42,7 @@ namespace LucrareFinalaCA
         }
         public async Task<IActionResult> OnPostPromote()
         {
-            await _userController.AssignRoleAsync(selectedUser, selectedRole);
+            await _userController.AssignRoleAsync(selectedUser, selectedRole,User);
             return RedirectToPage("/UserManagementPage");
         }
     }

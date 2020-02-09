@@ -16,20 +16,20 @@
         <p style="Background:border-box,#ffffff">
             @Model.Article.ArticleText
         </p>
-            <form method="post">
-                @if (User.IsInRole(Constants.ArticleAdministratorsRole)& @Model.Article.ApprovedStatus)
-                {
-                    <button type="submit" class="danger" asp-page-handler="approve" asp-route-id="@Model.Article.Id">
-                        <Button.ContentTemplate>
-                            <DataTemplate>
-                                <Viewbox>
-                                    <TextBlock class="text-center">Approve</TextBlock>
-                                </Viewbox>
-                            </DataTemplate>
-                        </Button.ContentTemplate>
-                    </button>
-                }
-            </form>
+        <form method="post">
+            @if (User.IsInRole(Constants.ArticleAdministratorsRole) & @Model.Article.ApprovedStatus!=true)
+            {
+                <button type="submit" class="danger" asp-page-handler="approve" asp-route-id="@Model.Article.Id">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <Viewbox>
+                                <TextBlock class="text-center">Approve</TextBlock>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </button>
+            }
+        </form>
     </div>
 
 }
@@ -39,8 +39,16 @@ else
         <form asp-controller="Movies" asp-action="get" method="get">
             <p>
                 Title: <input type="text" name="SearchString">
+                Category:<select asp-for="Category">
+                    <option value="">All</option>
+                @foreach (var categ in @Model.Categories)
+                {
+                    <option value="@categ.Id">@categ.Name</option>
+                }
+                </select>
                 <input type="submit" value="Search" />
             </p>
+
         </form>
     </div>
     <form method="Post" class="col-xs-12" enctype="multipart/form-data">

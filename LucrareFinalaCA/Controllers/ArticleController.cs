@@ -139,13 +139,13 @@ namespace LucrareFinalaCA.Controllers
             {
                 throw new ArgumentException("The currently logged in user is not allowed to edit that article.");
             }
-            if (vm.Title != null)
+            if (vm.Title != null && vm.Title != article.Title)
                 article.Title = vm.Title;
-            if (vm.ArticleText != null)
+            if (vm.ArticleText != null && vm.ArticleText != article.ArticleText)
                 article.ArticleText = vm.ArticleText;
-            if (vm.Image != null)
+            if (vm.Image != null && vm.Image != article.Image)
                 article.Image = vm.Image;
-            if (vm.Title != null || vm.ArticleText != null || vm.Image != null)
+            if ((vm.Title != null && vm.Title != article.Title) || (vm.ArticleText != null && vm.ArticleText != article.ArticleText) || (vm.Image != null && vm.Image != article.Image))
                 article.EditedDate = DateTime.Now;
             _ctx.Attach(article).State = EntityState.Modified;
             ArticleEditorMapping articleEditorMapping = new ArticleEditorMapping()
@@ -189,8 +189,8 @@ namespace LucrareFinalaCA.Controllers
                 throw new ArgumentException($"An Article with the given ID = '{id}' was not found ");
             }
             var isAuthorised = await _authorizationService.AuthorizeAsync(user, article, ArticleOperations.Approve);
-            
-            if (!article.ApprovedStatus & (isAuthorised.Succeeded||article.Author==_userManager.GetUserName(user)))
+
+            if (!article.ApprovedStatus & (!isAuthorised.Succeeded || article.Author != _userManager.GetUserName(user)))
             {
                 throw new ArgumentException($"The article with the given Id='{id}' has yet to be approved!");
             }
@@ -203,10 +203,11 @@ namespace LucrareFinalaCA.Controllers
                 ArticleText = article.ArticleText,
                 IssueDate = article.IssueDate,
                 EditedDate = article.EditedDate,
+                ApprovedStatus = article.ApprovedStatus
             };
             return rv;
         }
-        public async Task<List<ArticleViewModel>> GetByLastAsync(string searchString)
+        public async Task<List<ArticleViewModel>> GetByLastAsync(string searchString, string category)
         {
             var rv = new List<ArticleViewModel>();
             var articles = await (from arts in _ctx.Articles
@@ -214,9 +215,20 @@ namespace LucrareFinalaCA.Controllers
                                   select arts).Take(9).ToListAsync();
             var searcharticles = from a in _ctx.Articles
                                  select a;
-            if (!string.IsNullOrEmpty(searchString))
+
+            if (!string.IsNullOrEmpty(searchString) || !string.IsNullOrEmpty(category))
             {
-                searcharticles = searcharticles.Where(s => s.Title.Contains(searchString) || s.ArticleText.Contains(searchString));
+                if (!string.IsNullOrEmpty(category))
+                {
+                    searcharticles = from art in _ctx.Articles
+                                     join maps in _ctx.ArticleCategoryMappings on art.Id equals maps.ArtId
+                                     where maps.CategId == Int16.Parse(category)
+                                     select art;
+                }
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    searcharticles = searcharticles.Where(s => s.Title.Contains(searchString) || s.ArticleText.Contains(searchString));
+                }
                 foreach (var art in searcharticles)
                 {
                     if (art.ApprovedStatus)

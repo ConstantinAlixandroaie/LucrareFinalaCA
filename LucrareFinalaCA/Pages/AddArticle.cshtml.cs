@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,13 +23,15 @@ namespace LucrareFinalaCA.Pages
         [BindProperty]
         public ArticleViewModel Article { get; set; }
         [BindProperty]
+        [Required]
         public string categories { get; set; }
         string[] separator = { ",", " " };
         [BindProperty]
+        [Required]
         public IFormFile Image { get; set; }
-        public AddArticleModel(ApplicationDbContext ctx, IAuthorizationService authorizationService,UserManager<IdentityUser> userManager)
+        public AddArticleModel(ApplicationDbContext ctx, IAuthorizationService authorizationService, UserManager<IdentityUser> userManager)
         {
-            _articleController = new ArticleController(ctx,authorizationService,userManager);
+            _articleController = new ArticleController(ctx, authorizationService, userManager);
             _userManager = userManager;
         }
 
@@ -38,14 +41,19 @@ namespace LucrareFinalaCA.Pages
         }
         public async Task<IActionResult> OnPostAdd()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
             if (Path.GetExtension(Image.FileName).Equals(".png") || Path.GetExtension(Image.FileName).Equals(".jpeg") || Path.GetExtension(Image.FileName).Equals(".jpg")
                 || Path.GetExtension(Image.FileName).Equals(".gif") || Path.GetExtension(Image.FileName).Equals(".bmp"))
             {
                 BinaryReader reader = new BinaryReader(Image.OpenReadStream());
+                if(categories != null)
                 Article.Categories = categories.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 Article.Author = _userManager.GetUserName(User);
                 Article.Image = reader.ReadBytes((int)Image.Length);
-                await _articleController.Add(Article,User);
+                await _articleController.Add(Article, User);
                 return RedirectToPage("/Index");
             }
             else

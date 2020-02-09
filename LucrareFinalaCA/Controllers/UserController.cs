@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace LucrareFinalaCA.Controllers
@@ -18,11 +19,12 @@ namespace LucrareFinalaCA.Controllers
         protected readonly ApplicationDbContext _ctx;
         protected readonly IAuthorizationService _authorizationService;
         protected readonly RoleManager<IdentityRole> _roleManager;
-        public UserController(UserManager<IdentityUser> userManager, ApplicationDbContext ctx, RoleManager<IdentityRole> roleManager)
+        public UserController(UserManager<IdentityUser> userManager, ApplicationDbContext ctx, RoleManager<IdentityRole> roleManager, IAuthorizationService authorizationService)
         {
             _userManager = userManager;
             _ctx = ctx;
             _roleManager = roleManager;
+            _authorizationService = authorizationService;
         }
 
         public async Task<List<UserViewModel>> GetUsersAsync()
@@ -39,7 +41,7 @@ namespace LucrareFinalaCA.Controllers
             }
             return rv;
         }
-        public async Task<IdentityResult> AssignRoleAsync(string userName, string role)
+        public async Task<IdentityResult> AssignRoleAsync(string userName, string role, ClaimsPrincipal usr)
         {
             IdentityResult IR = null;
             IdentityUser User = await _userManager.FindByNameAsync(userName);
@@ -57,14 +59,15 @@ namespace LucrareFinalaCA.Controllers
 
 
             var user = await _userManager.FindByIdAsync(uId);
-
+            var admin = await _userManager.FindByNameAsync(usr.Identity.Name);
             if (user == null)
             {
                 throw new Exception("The testUserPw password was probably not strong enough!");
             }
-
-            IR = await _userManager.AddToRoleAsync(user, role);
-
+            var isAuthorized = await _userManager.IsInRoleAsync(admin, Constants.ArticleAdministratorsRole);
+            if (!isAuthorized)
+                throw new ArgumentException("You are not allowed to perform this opperation.");
+                IR = await _userManager.AddToRoleAsync(user, role);
             return IR;
         }
     }

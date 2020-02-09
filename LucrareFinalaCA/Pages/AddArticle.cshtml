@@ -8,32 +8,41 @@
 <h2>Add Article</h2>
 <hr />
 <form id="artdata" method="post" class="col-sm-12" enctype="multipart/form-data">
-    <div class="col-sm-12">
-        <label >Title</label>
-    </div>
-    <div class="col-sm-12">
-        <input class="col" asp-for="Article.Title" />
-    </div>
-    <div class="col-sm-12">
-        <label >Content</label>
-    </div>
-    <div class="col-sm-12">
-        <textarea cols="60" rows="10" asp-for="Article.ArticleText"></textarea>
-    </div>
-    <div class="col-sm-12 ">
-        <label>Image URL</label>
-    </div>
-    <div class="col-sm-12">
-        <input type="file" asp-for="Image"/>
-    </div>
-    <div class="col-sm-12">
-        <label >Categories</label>
-    </div>
-    <div class="col-sm-12">
-        <input id="categories" asp-for="categories" />
-    </div>
-    <div class="col-sm-12 ">
-        <input type="submit" asp-page-handler="Add" value="Add" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <label>Title</label>
+            <span></span>
+        </div>
+        <div class="col-sm-12">
+            <input class="col" asp-for="Article.Title" />
+            <span asp-validation-for="Article.Title" class="text-danger"></span>
+        </div>
+        <div class="col-sm-12">
+            <label>Content</label>
+        </div>
+        <div class="col-sm-12">
+            <textarea cols="60" rows="10" asp-for="Article.ArticleText"></textarea>
+            <span asp-validation-for="Article.ArticleText" class="text-danger"></span>
+        </div>
+        <div class="col-sm-12 ">
+            <label>Image URL</label>
+        </div>
+        <div class="col-sm-12">
+            <input type="file" asp-for="Image" />
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+        <div class="col-sm-12">
+            <label>Categories</label>
+        </div>
+        <div class="col-sm-12">
+            <input id="categories" asp-for="categories" />
+            <span asp-validation-for="categories" class="text-danger"></span>
+        </div>
+        <div class="col-sm-12 ">
+            <input type="submit" asp-page-handler="Add" value="Add" />
+
+        </div>
     </div>
 </form>
 

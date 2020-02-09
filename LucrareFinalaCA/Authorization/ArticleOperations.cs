@@ -18,6 +18,8 @@ namespace LucrareFinalaCA.Authorization
           new OperationAuthorizationRequirement { Name = Constants.DeleteOperationName };
         public static OperationAuthorizationRequirement Approve =
         new OperationAuthorizationRequirement { Name = Constants.ApproveOperationName };
+        public static OperationAuthorizationRequirement Promote =
+        new OperationAuthorizationRequirement { Name = Constants.PromoteOperationName };
 
     }
 
@@ -28,7 +30,8 @@ namespace LucrareFinalaCA.Authorization
         public static readonly string UpdateOperationName = "Update";
         public static readonly string DeleteOperationName = "Delete";
         public static readonly string ApproveOperationName = "Approve";
-        
+        public static readonly string PromoteOperationName = "Promote";
+
         public static readonly string ArticleAdministratorsRole = "ArticlesAdministrators";
 
         public static readonly string ArticleManagersRole = "ArticlesManagers";
