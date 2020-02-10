@@ -146,14 +146,16 @@ namespace LucrareFinalaCA.Controllers
             if (vm.Image != null && vm.Image != article.Image)
                 article.Image = vm.Image;
             if ((vm.Title != null && vm.Title != article.Title) || (vm.ArticleText != null && vm.ArticleText != article.ArticleText) || (vm.Image != null && vm.Image != article.Image))
-                article.EditedDate = DateTime.Now;
-            _ctx.Attach(article).State = EntityState.Modified;
-            ArticleEditorMapping articleEditorMapping = new ArticleEditorMapping()
             {
-                ArticleId = article.Id,
-                UserId = userId
-            };
-            _ctx.Add(articleEditorMapping);
+                article.EditedDate = DateTime.Now;
+                _ctx.Attach(article).State = EntityState.Modified;
+                ArticleEditorMapping articleEditorMapping = new ArticleEditorMapping()
+                {
+                    ArticleId = article.Id,
+                    UserId = userId
+                };
+                _ctx.Add(articleEditorMapping);
+            }
             await _ctx.SaveChangesAsync();
         }
 
@@ -190,7 +192,7 @@ namespace LucrareFinalaCA.Controllers
             }
             var isAuthorised = await _authorizationService.AuthorizeAsync(user, article, ArticleOperations.Approve);
 
-            if (!article.ApprovedStatus & (!isAuthorised.Succeeded || article.Author != _userManager.GetUserName(user)))
+            if (!article.ApprovedStatus & !isAuthorised.Succeeded & article.Author != _userManager.GetUserName(user))
             {
                 throw new ArgumentException($"The article with the given Id='{id}' has yet to be approved!");
             }

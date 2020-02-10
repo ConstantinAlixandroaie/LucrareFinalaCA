@@ -17,6 +17,7 @@
                 <th>Title</th>
                 <th>Issue Date</th>
                 <th>Edited Date</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +25,7 @@
             {
                 <tr>
                     <td>
-                        @article.Title
+                        <a href="/Article/@article.Id">@article.Title</a>
                     </td>
                     <td>
                         @article.IssueDate
@@ -39,6 +40,12 @@
                             <p>
                                 Not edited yet.
                             </p>
+                        }
+                    </td>
+                    <td>
+                        @if (article.Author == User.Identity.Name || User.IsInRole(Constants.ArticleAdministratorsRole) || User.IsInRole(Constants.ArticleEditorRole))
+                        {
+                            <a href="/EditArticle/@article.Id">Edit</a>
                         }
                     </td>
                 </tr>
@@ -53,6 +60,7 @@
                 <th>Title</th>
                 <th>Issue Date</th>
                 <th>Edited Date</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -60,7 +68,7 @@
             {
                 <tr>
                     <td>
-                        @article.Title
+                        <a href="/Article/@article.Id">@article.Title</a>
                     </td>
                     <td>
                         @article.IssueDate
@@ -75,6 +83,12 @@
                             <p>
                                 Not edited yet.
                             </p>
+                        }
+                    </td>
+                    <td>
+                        @if (article.Author == User.Identity.Name || User.IsInRole(Constants.ArticleAdministratorsRole) || User.IsInRole(Constants.ArticleEditorRole))
+                        {
+                            <a href="/EditArticle/@article.Id">Edit</a>
                         }
                     </td>
                 </tr>

@@ -72,7 +72,7 @@ else
                             @article.ArticleText
                         </div>
                         <div>
-                            @if (article.Author == Model.UserID || User.IsInRole(Constants.ArticleAdministratorsRole) || User.IsInRole(Constants.ArticleEditorRole))
+                            @if (article.Author == Model.User.Identity.Name || User.IsInRole(Constants.ArticleAdministratorsRole) || User.IsInRole(Constants.ArticleEditorRole))
                             {
                                 <a href="/EditArticle/@article.Id">Edit</a>
                             }
