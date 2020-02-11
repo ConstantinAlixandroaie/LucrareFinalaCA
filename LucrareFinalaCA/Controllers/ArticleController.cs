@@ -129,6 +129,7 @@ namespace LucrareFinalaCA.Controllers
 
         public override async Task Edit(ArticleViewModel vm, ClaimsPrincipal user)
         {
+            bool isEsdited = false;
             var article = await _ctx.Articles.FirstOrDefaultAsync(x => x.Id == vm.Id);
             var userId = _userManager.GetUserId(user);
             if (article == null)
@@ -140,12 +141,21 @@ namespace LucrareFinalaCA.Controllers
                 throw new ArgumentException("The currently logged in user is not allowed to edit that article.");
             }
             if (vm.Title != null && vm.Title != article.Title)
+            {
                 article.Title = vm.Title;
+                isEsdited = true;
+            }
             if (vm.ArticleText != null && vm.ArticleText != article.ArticleText)
+            {
                 article.ArticleText = vm.ArticleText;
+                isEsdited = true;
+            }
             if (vm.Image != null && vm.Image != article.Image)
+            {
                 article.Image = vm.Image;
-            if ((vm.Title != null && vm.Title != article.Title) || (vm.ArticleText != null && vm.ArticleText != article.ArticleText) || (vm.Image != null && vm.Image != article.Image))
+                isEsdited = true;
+            }
+            if (isEsdited)
             {
                 article.EditedDate = DateTime.Now;
                 _ctx.Attach(article).State = EntityState.Modified;
@@ -318,7 +328,7 @@ namespace LucrareFinalaCA.Controllers
             var query = await (from art in _ctx.Articles
                                join maps in _ctx.ArticleEditorMappings on art.Id equals maps.ArticleId
                                where maps.UserId == userId
-                               select art).ToListAsync();
+                               select art).Distinct().ToListAsync();
 
             foreach (var article in query)
             {

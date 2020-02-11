@@ -32,7 +32,7 @@ namespace LucrareFinalaCA
         public async Task<IActionResult> OnPostApprove(int id)
         {
             await _articleController.ApproveArticle(id, User);
-            return Page();
+            return RedirectToPage("/ApproveArticles");
 
         }
 
